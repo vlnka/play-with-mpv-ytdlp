@@ -54,7 +54,7 @@ class Handler(BaseHTTPServer.BaseHTTPRequestHandler, CompatibilityMixin):
                     ps_command = [
                         'powershell', 
                         '-ExecutionPolicy', 'Bypass',
-                        '-File', 'C:/Scripts/playwithmpv/launchmpv.ps1',
+                        '-File', 'D:/Scripts/playwithmpv/launchmpv.ps1',
                         urls
                     ]
                     startup_info = subprocess.STARTUPINFO()
