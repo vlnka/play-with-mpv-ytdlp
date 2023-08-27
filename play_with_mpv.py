@@ -56,7 +56,8 @@ class Handler(BaseHTTPServer.BaseHTTPRequestHandler, CompatibilityMixin):
                     ]
                     #pipe = subprocess.Popen(['mpv', urls] +
                     #             query.get("mpv_args", []))
-                    pipe = subprocess.run(ps_command, text=True, check=True)
+#################################################################################################################################
+                    pipe = subprocess.run(["powershell", "-Command", ps_command], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, check=True, creationflags=subprocess.CREATE_NO_WINDOW)
                 except FileNotFoundError as e:
                     missing_bin('mpv')
             self.respond(200, "playing...")
