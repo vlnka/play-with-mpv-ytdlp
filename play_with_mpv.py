@@ -5,6 +5,9 @@ import sys
 import argparse
 from subprocess import Popen
 
+startupinfo = subprocess.STARTUPINFO()
+startupinfo.dwFlags |= subprocess.STARTF_FORCEFOREGROUND
+
 if sys.version_info[0] < 3:  # python 2
     import BaseHTTPServer
     import urlparse
@@ -47,8 +50,8 @@ class Handler(BaseHTTPServer.BaseHTTPRequestHandler, CompatibilityMixin):
                     missing_bin('peerflix')
             else:
                 try:
-                    pipe = Popen(['mpv', urls, '--force-window'] +
-                                 query.get("mpv_args", []))
+                    pipe = Popen(['mpv', urls] +
+                                 query.get("mpv_args", []), startupinfo=startupinfo)
                 except FileNotFoundError as e:
                     missing_bin('mpv')
             self.respond(200, "playing...")
