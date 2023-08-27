@@ -48,16 +48,18 @@ class Handler(BaseHTTPServer.BaseHTTPRequestHandler, CompatibilityMixin):
                     missing_bin('peerflix')
             else:
                 try:
+                    #pipe = subprocess.Popen(['mpv', urls] +
+                    #             query.get("mpv_args", []))
+#################################################################################################################################
                     ps_command = [
                         'powershell', 
                         '-ExecutionPolicy', 'Bypass',
                         '-File', 'C:/Scripts/playwithmpv/launchmpv.ps1',
                         urls
                     ]
-                    #pipe = subprocess.Popen(['mpv', urls] +
-                    #             query.get("mpv_args", []))
-#################################################################################################################################
-                    pipe = subprocess.run(["powershell", "-Command", ps_command], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, check=True, creationflags=subprocess.CREATE_NO_WINDOW)
+                    startup_info = subprocess.STARTUPINFO()
+                    startup_info.dwFlags |= subprocess.STARTF_USESHOWWINDOW                    
+                    pipe = subprocess.Popen(ps_command, startupinfo=startup_info)
                 except FileNotFoundError as e:
                     missing_bin('mpv')
             self.respond(200, "playing...")
