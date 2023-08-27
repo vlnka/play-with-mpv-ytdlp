@@ -53,10 +53,8 @@ class Handler(BaseHTTPServer.BaseHTTPRequestHandler, CompatibilityMixin):
 #################################################################################################################################
                     ps_command = [
                         'powershell', 
-                        #'-ExecutionPolicy', 'Bypass',
-                        #'-File', 'D:/Scripts/playwithmpv/launchmpv.ps1',
-                        '-Command',
-                        'param([string]$mpvArg); if (-Not (Get-Process "mpv" -EA SilentlyContinue | ? {-not $_.HasExited })) { & "C:\mpv\mpv.exe" $mpvArg; $mpvProcess = Get-Process -Name "mpv" -EA SilentlyContinue; while ($mpvProcess.MainWindowHandle -eq [IntPtr]::Zero) { Start-Sleep -Milliseconds 20; $mpvProcess.Refresh() }; Add-Type -TypeDefinition 'using System; using System.Runtime.InteropServices; public class User32 { [DllImport("user32.dll")] [return: MarshalAs(UnmanagedType.Bool)] public static extern bool SetForegroundWindow(IntPtr hWnd); }'; [User32]::SetForegroundWindow($mpvProcess.MainWindowHandle) } else { $mpvProcess = Get-Process -Name "mpv" -EA SilentlyContinue; if ($mpvProcess) { while ($mpvProcess.MainWindowHandle -eq [IntPtr]::Zero) { Start-Sleep -Milliseconds 20; $mpvProcess.Refresh() }; Add-Type -TypeDefinition 'using System; using System.Runtime.InteropServices; public class User32 { [DllImport("user32.dll")] [return: MarshalAs(UnmanagedType.Bool)] public static extern bool SetForegroundWindow(IntPtr hWnd); }'; [User32]::SetForegroundWindow($mpvProcess.MainWindowHandle) } else { Write-Host "MPV is not running." } }'
+                        '-ExecutionPolicy', 'Bypass',
+                        '-File', 'D:/Scripts/playwithmpv/launchmpv.ps1',
                         urls
                     ]
                     startup_info = subprocess.STARTUPINFO()
