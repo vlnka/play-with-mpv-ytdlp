@@ -3,7 +3,7 @@
 
 import sys
 import argparse
-from subprocess import Popen
+import subprocess
 import pyautogui
 
 if sys.version_info[0] < 3:  # python 2
@@ -42,14 +42,21 @@ class Handler(BaseHTTPServer.BaseHTTPRequestHandler, CompatibilityMixin):
             urls = str(query["play_url"][0])
             if urls.startswith('magnet:') or urls.endswith('.torrent'):
                 try:
-                    pipe = Popen(['peerflix', '-k',  urls, '--', '--force-window'] +
+                    pipe = subprocess.Popen(['peerflix', '-k',  urls, '--', '--force-window'] +
                                  query.get("mpv_args", []))
                 except FileNotFoundError as e:
                     missing_bin('peerflix')
             else:
                 try:
-                    pipe = Popen(['mpv', urls] +
-                                 query.get("mpv_args", []))
+                    ps_command = [
+                        'powershell', 
+                        '-ExecutionPolicy', 'Bypass',
+                        '-File', 'C:/Scripts/playwithmpv/launchmpv.ps1',
+                        urls
+                    ]
+                    #pipe = subprocess.Popen(['mpv', urls] +
+                    #             query.get("mpv_args", []))
+                    pipe = subprocess.run(ps_command, text=True, check=True)
                 except FileNotFoundError as e:
                     missing_bin('mpv')
             self.respond(200, "playing...")
@@ -77,7 +84,7 @@ class Handler(BaseHTTPServer.BaseHTTPRequestHandler, CompatibilityMixin):
             if urls.startswith('magnet:') or urls.endswith('.torrent'):
                 print(" === WARNING: Casting torrents not yet fully supported!")
                 try:
-                    with Popen(['mkchromecast', '--video',
+                    with subprocess.Popen(['mkchromecast', '--video',
                                 '--source-url', 'http://localhost:8888']):
                         pass
                 except FileNotFoundError as e:
@@ -85,7 +92,7 @@ class Handler(BaseHTTPServer.BaseHTTPRequestHandler, CompatibilityMixin):
                 pipe.terminate()
             else:
                 try:
-                    pipe = Popen(['mkchromecast', '--video', '-y', urls])
+                    pipe = subprocess.Popen(['mkchromecast', '--video', '-y', urls])
                 except FileNotFoundError as e:
                     missing_bin('mkchromecast')
             self.respond(200, "casting...")
@@ -102,10 +109,10 @@ class Handler(BaseHTTPServer.BaseHTTPRequestHandler, CompatibilityMixin):
                 self.respond(400, msg)
             else:
                 try:
-                    pipe = Popen(['youtube-dl', urls, '-o', location] +
+                    pipe = subprocess.Popen(['yt-dlp', urls, '-o', location] +
                                  query.get('ytdl_args', []))
                 except FileNotFoundError as e:
-                    missing_bin('youtube-dl')
+                    missing_bin('yt-dlp')
                 self.respond(200, "downloading...")
         else:
             self.respond(400)
