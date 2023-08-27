@@ -4,9 +4,7 @@
 import sys
 import argparse
 from subprocess import Popen
-
-startupinfo = subprocess.STARTUPINFO()
-startupinfo.dwFlags |= subprocess.STARTF_FORCEFOREGROUND
+import pyautogui
 
 if sys.version_info[0] < 3:  # python 2
     import BaseHTTPServer
@@ -51,10 +49,29 @@ class Handler(BaseHTTPServer.BaseHTTPRequestHandler, CompatibilityMixin):
             else:
                 try:
                     pipe = Popen(['mpv', urls] +
-                                 query.get("mpv_args", []), startupinfo=startupinfo)
+                                 query.get("mpv_args", []))
                 except FileNotFoundError as e:
                     missing_bin('mpv')
             self.respond(200, "playing...")
+            def focus_window(partial_title):
+                try:
+                    windows = pyautogui.getAllWindows()
+                    target_window = None
+                    for window in windows:
+                        if window.title.endswith(partial_title):
+                            target_window = window
+                            break
+                    
+                    if target_window:
+                        target_window.activate()
+                    else:
+                        print("Window not found.")
+                except Exception as e:
+                    print(f"An error occurred: {e}")
+
+            partial_title = " - mpv"
+            focus_window(partial_title)            
+            
         elif "cast_url" in query:
             urls = str(query["cast_url"][0])
             if urls.startswith('magnet:') or urls.endswith('.torrent'):
