@@ -39,8 +39,10 @@ class Handler(BaseHTTPServer.BaseHTTPRequestHandler, CompatibilityMixin):
         if "play_url" in query:
             urls = str(query["play_url"][0])         
             #pipe = subprocess.Popen(['mpv', urls] +
-            #             query.get("mpv_args", []))          
-            pipe = subprocess.Popen(['powershell','-ExecutionPolicy','Bypass','-File','D:/Scripts/playwithmpv/launchmpv.ps1',urls] + query.get("mpv_args", []))
+            #             query.get("mpv_args", []))  
+            startup_info = subprocess.STARTUPINFO()
+            startup_info.dwFlags |= subprocess.STARTF_USESHOWWINDOW
+            pipe = subprocess.Popen(['powershell','-ExecutionPolicy','Bypass','-File','D:/Scripts/playwithmpv/launchmpv.ps1',urls] + query.get("mpv_args", []),startupinfo=startup_info)
             self.respond(200, "playing...")
         else:
             self.respond(400)
