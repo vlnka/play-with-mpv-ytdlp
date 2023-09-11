@@ -1,3 +1,4 @@
+# change path
 $mpvPath = "D:\Programs\mpv\mpv.exe"
 $mpvProcess = Get-Process -Name "mpv" -ErrorAction SilentlyContinue
 
