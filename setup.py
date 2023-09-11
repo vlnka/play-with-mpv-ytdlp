@@ -28,12 +28,12 @@ def get_version():
 setup(
     name = "play-with-mpv-ytdlp",
     version = get_version(),
-    author = "Kyle Yasuda",
-    author_email = "ksyasuda@umich.edu",
+    author = "vlnka",
+    author_email = "vd@cock.li",
     description = description,
     license = "MIT",
     keywords = "mpv video play chrome extension",
-    url = "http://github.com/ksyasuda/play-with-mpv",
+    url = "https://github.com/vlnka/play-with-mpv-ytdlp",
     long_description=read('README.md'),
     classifiers=[
         "Development Status :: 3 - Alpha",
