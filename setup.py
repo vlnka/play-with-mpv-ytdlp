@@ -31,18 +31,18 @@ setup(
     author = "vlnka",
     author_email = "vd@cock.li",
     description = description,
-    license = "MIT",
-    keywords = "mpv video play chrome extension",
-    url = "https://github.com/vlnka/play-with-mpv-ytdlp",
+    license = "Unlicense",
+    keywords = "play with mpv server",
+    url = "https://github.com/vlnka/play-with-mpv-ytdlp-server",
     long_description=read('README.md'),
     classifiers=[
         "Development Status :: 3 - Alpha",
         "Topic :: Utilities",
-        "License :: OSI Approved :: MIT License",
+        "License :: Unlicense",
     ],
 
     py_modules=["play_with_mpv"],
-    install_requires=['wheel', 'yt-dlp'],
+    install_requires=['wheel', 'yt-dlp', 'streamlink'],
     entry_points={
         'gui_scripts': [
             'play-with-mpv=play_with_mpv:start',
@@ -54,7 +54,7 @@ setup(
     ],
     desktop_entries={
         'play-with-mpv': {
-            'filename': 'play-with-mpv-ytdlp',
+            'filename': 'play-with-mpv-ytdlp-server',
             'Name': 'Play With MPV (server)',
             'Categories': 'AudioVideo;Audio;Video;Player;TV',
             'Comment': description,
