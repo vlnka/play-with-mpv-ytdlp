@@ -42,7 +42,7 @@ setup(
     ],
 
     py_modules=["play_with_mpv"],
-    install_requires=['wheel', 'yt-dlp', 'streamlink'],
+    install_requires=['wheel', 'yt-dlp'],
     entry_points={
         'gui_scripts': [
             'play-with-mpv=play_with_mpv:start',
