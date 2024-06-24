@@ -29,7 +29,7 @@ setup(
     name = "play-with-mpv-ytdlp",
     version = get_version(),
     author = "vlnka",
-    author_email = "vd@cock.li",
+    author_email = "vl@tfwno.gf",
     description = description,
     license = "Unlicense",
     keywords = "play with mpv server",
@@ -42,7 +42,7 @@ setup(
     ],
 
     py_modules=["play_with_mpv"],
-    install_requires=['wheel', 'yt-dlp'],
+    install_requires=['wheel'],
     entry_points={
         'gui_scripts': [
             'play-with-mpv=play_with_mpv:start',
